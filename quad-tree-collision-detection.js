@@ -1,7 +1,7 @@
 import QuadTree from "./quad-tree.js";
 
 export default class QuadTreeCollisionDetection {
-  constructor(canvasSize, ctx) {
+  constructor({ canvasSize, ctx }) {
     this.canvasSize = canvasSize;
     this.ctx = ctx;
   }
@@ -14,7 +14,7 @@ export default class QuadTreeCollisionDetection {
     quad.draw(this.ctx);
 
     balls.forEach(ball => {
-      const nearbyBalls = quad.queryRect(ball.pos.x - ball.radius, ball.pos.y - ball.radius, ball.radius * 2, ball.radius * 2)
+      const nearbyBalls = quad.queryRect(ball.pos.x - ball.radius, ball.pos.y - ball.radius, ball.radius * 2, ball.radius * 2);
       nearbyBalls.forEach(otherBall => {
         if (ball === otherBall) {
           return;

@@ -60,7 +60,7 @@ function setup() {
   }
 
   // Set up collision detection
-  collisionDetection = new collisionDetectionAlgorithms[config.collisionDetection](canvasSize, ctx);
+  collisionDetection = new collisionDetectionAlgorithms[config.collisionDetection]({ canvasSize, ctx });
 
   // Start animation
   clearInterval(interval);

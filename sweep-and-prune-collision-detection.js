@@ -21,6 +21,11 @@ class Interval {
 }
 
 export default class SweepAndPruneCollisionDetection {
+  constructor({ canvasSize, ctx }) {
+    this.canvasSize = canvasSize;
+    this.ctx = ctx;
+  }
+
   update(balls) {
     // Sort balls by x
     balls.sort((a, b) => a.pos.x - b.pos.x);
@@ -39,6 +44,12 @@ export default class SweepAndPruneCollisionDetection {
         // No collision, update active range
         activeInterval = new Interval(ball);
       }
+    });
+
+    // Draw graphic
+    intervals.forEach((interval) => {
+      this.ctx.fillStyle = `rgba(255, 0, 0, 0.2)`;
+      this.ctx.fillRect(interval.leftmostPoint, 0, interval.rightmostPoint - interval.leftmostPoint, this.canvasSize);
     });
 
     // Resolve collisions
