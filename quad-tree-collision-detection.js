@@ -1,67 +1,31 @@
-export default class QuadTree {
-  constructor(x, y, width, height) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.capacity = 4;
-    this.objects = [];
-    this.children = [];
+import QuadTree from "./quad-tree.js";
+
+export default class QuadTreeCollisionDetection {
+  constructor(canvasSize, ctx) {
+    this.canvasSize = canvasSize;
+    this.ctx = ctx;
   }
 
-  split() {
-    // Create children
-    this.children = this.children.concat([
-      new QuadTree(this.x, this.y, this.width / 2, this.height / 2),
-      new QuadTree(this.x + this.width / 2, this.y, this.width / 2, this.height / 2),
-      new QuadTree(this.x, this.y + this.height / 2, this.width / 2, this.height / 2),
-      new QuadTree(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, this.height / 2)
-    ]);
-    // Move objects into children
-    this.objects.forEach(object => {
-      this.children.forEach(child => {
-        if (child.spatiallyContains(object)) {
-          child.insert(object);
+  update(balls) {
+    const quad = new QuadTree(0, 0, this.canvasSize, this.canvasSize);
+    balls.forEach(ball => {
+      quad.insert(ball);
+    });
+    quad.draw(this.ctx);
+
+    balls.forEach(ball => {
+      const nearbyBalls = quad.queryRect(ball.pos.x - ball.radius, ball.pos.y - ball.radius, ball.radius * 2, ball.radius * 2)
+      nearbyBalls.forEach(otherBall => {
+        if (ball === otherBall) {
           return;
         }
-      });
-    });
-  }
 
-  insert(object) {
-    // Find a leaf node to insert into
-    if (this.children.length) {
-      this.children.forEach(child => {
-        if (child.spatiallyContains(object)) {
-          child.insert(object);
+        const delta = ball.pos.minus(otherBall.pos);
+
+        if (delta.magnitude < ball.radius + otherBall.radius) {
+          ball.vel.angle = delta.angle;
         }
       });
-      return;
-    }
-
-    // If leaf node, insert
-    this.objects.push(object);
-
-    // If leaf node full, branch out
-    if (this.objects.length > this.capacity) {
-      this.split();
-    }
-  }
-
-  spatiallyContains(object) {
-    return object.pos.x >= this.x && object.pos.x < this.x + this.width &&
-      object.pos.y >= this.y && object.pos.y < this.y + this.height;
-  }
-
-  draw(ctx) {
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
-    this.children.forEach(child => {
-      child.draw(ctx);
     });
   }
-}
-
-export class QuadTreeCollisionDetection {
-
 }

@@ -1,11 +1,12 @@
 import Vector2 from './vector2.js';
 import NaiveCollisionDetection from './naive-collision-detection.js';
-import QuadTree from './quad-tree-collision-detection.js';
+import QuadTreeCollisionDetection from './quad-tree-collision-detection.js';
+import QuadTree from './quad-tree.js';
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const balls = [];
 const canvasSize = 600;
-const ballCount = 100;
+const ballCount = 200;
 let collisionDetection;
 
 class Ball {
@@ -21,7 +22,7 @@ function setup() {
   for (let i = 0; i < ballCount; i++) {
     balls.push(new Ball());
   }
-  collisionDetection = new NaiveCollisionDetection();
+  collisionDetection = new QuadTreeCollisionDetection(canvasSize, ctx);
 }
 
 function update() {
@@ -50,13 +51,6 @@ function update() {
     ctx.fill();
     ctx.closePath();
   });
-
-  const quad = new QuadTree(0, 0, canvasSize, canvasSize);
-  balls.forEach(ball => {
-    quad.insert(ball);
-  });
-  quad.draw(ctx);
-
 }
 
 setup();
