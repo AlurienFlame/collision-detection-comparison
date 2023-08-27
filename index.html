@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset='utf-8'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -8,7 +9,28 @@
   <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
   <script type="module" src='main.js' defer></script>
 </head>
+
 <body>
-  <canvas width="600" height="600" />
+  <canvas width="600" height="600"></canvas>
+  <form>
+    <label for="collisionDetection">Collision Detection Algorithm:</label>
+    <select name="collisionDetection">
+      <option value="naive">Naive</option>
+      <option value="quad" selected>Quad Tree</option>
+      <option value="sweep">Sweep and Prune</option>
+      <option disabled value="grid">Uniform Grid</option>
+      <option disabled value="kd">KD Tree</option>
+      <option disabled value="bound">Bounding Volume Hierarchy</option>
+    </select>
+    <label for="ballCount">Number of Balls:</label>
+    <input type="number" name="ballCount" min="1" max="500" value="20">
+    <label for="ballSize">Ball Size:</label>
+    <input type="number" name="ballSize" min="1" max="50" value="20">
+    <label for="ballSizeVariance">Ball Size Variance:</label>
+    <input type="number" name="ballSizeVariance" min="0" max="10" value="5">
+    <label for="mspf">Minimum Milliseconds per Frame:</label>
+    <input type="number" name="mspf" min="0" max="1000" value="50">
+  </form>
 </body>
+
 </html>

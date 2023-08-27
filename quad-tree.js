@@ -54,7 +54,7 @@ export default class QuadTree {
   }
 
   draw(ctx) {
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
     ctx.strokeRect(this.x, this.y, this.width, this.height);
     this.children.forEach(child => {
       child.draw(ctx);
