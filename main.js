@@ -68,6 +68,7 @@ function setup() {
 }
 
 function update() {
+  // TODO: profiling - ideally average over several (hundred?) updates, display to user
   ctx.clearRect(0, 0, canvasSize, canvasSize);
 
   // Collisions
